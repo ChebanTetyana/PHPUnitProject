@@ -1,0 +1,21 @@
+{
+    "name": "cheba/php-unit",
+    "description": "A simple project demonstrating PHP unit testing",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Cheba\\PhpUnit\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ChebanTetyana",
+            "email": "kapitoskay1302@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "phpunit/phpunit": "9.5"
+    }
+}
