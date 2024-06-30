@@ -8,6 +8,11 @@
             "Cheba\\PhpUnit\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Cheba\\PhpUnit\\Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "ChebanTetyana",
@@ -15,7 +20,11 @@
         }
     ],
     "minimum-stability": "dev",
+    "require": {
+        "some/production-package": "^1.0"
+    },
     "require-dev": {
-        "phpunit/phpunit": "9.5"
+        "phpunit/phpunit": "^9.5",
+        "some/development-package": "^1.0"
     }
 }
