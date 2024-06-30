@@ -1,6 +1,7 @@
 <?php
 
 namespace Cheba\PhpUnit;
+
 class Calculator
 {
     public function add($a, $b)
