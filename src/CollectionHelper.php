@@ -6,7 +6,7 @@ class CollectionHelper
 {
     public function findLastElement(array $list)
     {
-        if(empty($list)) {
+        if (empty($list)) {
             throw new \InvalidArgumentException('The list is empty.');
         }
 
@@ -15,11 +15,11 @@ class CollectionHelper
 
     public function findPenultimateElement(array $list)
     {
-        if(count($list) < 2) {
+        if (count($list) < 2) {
             throw new \InvalidArgumentException('The list is empty.');
         }
 
-        return $list[count($list)-2];
+        return $list[count($list) - 2];
     }
 
     public function kthElement(array $list, int $k)
@@ -33,7 +33,7 @@ class CollectionHelper
 
     public function numberOfElements(array $list)
     {
-        if(count($list) < 1) {
+        if (count($list) < 1) {
             throw new \InvalidArgumentException('The list is empty.');
         }
         return count($list);
@@ -41,7 +41,7 @@ class CollectionHelper
 
     public function reverseList(array $list)
     {
-        if(count($list) < 1) {
+        if (count($list) < 1) {
             throw new \InvalidArgumentException('The list is empty.');
         }
 
@@ -57,7 +57,7 @@ class CollectionHelper
         return $list === array_reverse($list);
     }
 
-    public function flatten(array $list):array
+    public function flatten(array $list): array
     {
         $result = [];
         foreach ($list as $element) {
@@ -70,12 +70,12 @@ class CollectionHelper
         return $result;
     }
 
-    public function eliminateConsecutiveDuplicates(array $list):array
+    public function eliminateConsecutiveDuplicates(array $list): array
     {
         if (empty($list)) {
             return [];
         }
-        
+
         $result = [];
         $previousElement = $list[0];
         $result[] = $previousElement;
@@ -122,5 +122,4 @@ class CollectionHelper
 
         return $encodedList;
     }
-
 }

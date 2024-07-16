@@ -90,7 +90,7 @@ class CollectionHelperTest extends TestCase
     {
         $this->expectException(\OutOfBoundsException::class);
         $collectionHelper = new CollectionHelper();
-        $list=[8];
+        $list = [8];
         $collectionHelper->kthElement($list, 2);
     }
 
@@ -249,6 +249,4 @@ class CollectionHelperTest extends TestCase
             [[], []]
         ];
     }
-
-
 }

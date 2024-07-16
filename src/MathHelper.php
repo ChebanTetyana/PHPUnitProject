@@ -6,15 +6,15 @@ class MathHelper
 {
     public function isPrime($number)
     {
-        if($number<=1) {
+        if ($number <= 1) {
             return false;
         }
 
-        if($number<=3) {
+        if ($number <= 3) {
             return true;
         }
 
-        if($number % 2==0|| $number % 3 == 0) {
+        if ($number % 2 == 0 || $number % 3 == 0) {
             return false;
         }
 
