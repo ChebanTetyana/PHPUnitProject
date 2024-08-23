@@ -2,6 +2,8 @@
 
 namespace Cheba\PhpUnit\BowlingGame;
 
+use InvalidArgumentException;
+
 class BowlingGame
 {
     /** @var array<int[]> */
@@ -22,68 +24,115 @@ class BowlingGame
 
     public function roll(int $pinsHit): int|string
     {
-        if ($this->currentFrame > 10) {
+        if ($this->isGameOver()) {
             return "Game over!";
         }
 
-        if ($this->currentFrame <= 9 || $this->bonusRolls > 0) {
-            if ($this->isFirstRoll) {
-                if ($pinsHit == 10 && $this->currentFrame < 10) {
-                    $this->frames[] = [10];
-                    $this->currentFrame++;
-                    $this->isFirstRoll = true;
-                } else {
-                    $this->frames[] = [$pinsHit];
-                    $this->isFirstRoll = false;
-                }
-            } else {
-                $this->frames[count($this->frames) - 1][] = $pinsHit;
-                if ($this->frames[count($this->frames) - 1][0] + $pinsHit == 10) {
-                    $this->frames[count($this->frames) - 1][] = 'Spare';
-                }
-                $this->currentFrame++;
-                $this->isFirstRoll = true;
-            }
+        $this->validatePins($pinsHit);
+
+        if ($this->isBonusFrame() || $this->currentFrame <= 9) {
+            $this->handleRoll($pinsHit);
         } else {
-            if ($this->isFirstRoll) {
-                $this->frames[] = [$pinsHit];
-                if ($pinsHit == 10) {
-                    $this->bonusRolls = 2;
-                } else {
-                    $this->isFirstRoll = false;
-                    $this->bonusRolls = 1;
-                }
-            } else {
-                $this->frames[count($this->frames) - 1][] = $pinsHit;
-                $this->bonusRolls--;
-                if ($this->bonusRolls === 0) {
-                    $this->currentFrame++;
-                }
-            }
+            $this->handleBonusRoll($pinsHit);
         }
-
-        if ($this->currentFrame > 10) {
-            return "Game over!";
-        }
-        return $pinsHit;
+        return $this->isGameOver() ? "Game over!" : $pinsHit;
     }
 
-    public function print() :int
+    public function getResult(): array
     {
+        $scores = [];
         $totalScore = 0;
 
-        for ($i = 0; $i < count($this->frames); $i++) {
-            $frame = $this->frames[$i];
-            $frameScore = array_sum(array_filter($frame, fn($val) => is_numeric($val)));
+        foreach ($this->frames as $i => $frame) {
+            $frameScore = $this->calculateFrameScore($frame, $i);
 
-            if (count($frame) == 1 && $frame[0] == 10) {
-                $frameScore += $this->getStrikeBonus($i);
-            } elseif (count($frame) == 3 && $frame[2] == 'Spare') {
-                $frameScore += $this->getSpareBonus($i);
-            }
             $totalScore += $frameScore;
+            $scores[] = $totalScore;
+
+            if ($i == 9) {
+                break;
+            }
         }
-        return $totalScore;
+        return $scores;
+    }
+
+    public function calculateFrameScore(array $frame, int $i): float|int
+    {
+        $frameScore = array_sum(array_filter($frame, fn($val) => is_numeric($val)));
+
+        if ($this->isStrike($frame)) {
+            $frameScore += $this->getStrikeBonus($i);
+        } elseif ($this->isSpare($frame)) {
+            $frameScore += $this->getSpareBonus($i);
+        }
+
+        return $frameScore;
+    }
+
+    public function isGameOver(): bool
+    {
+        return $this->currentFrame > 10;
+    }
+
+    public function validatePins(int $pinsHit): void
+    {
+        if ($pinsHit < 0 || $pinsHit > 10) {
+            throw new InvalidArgumentException('Invalid number of pins.');
+        }
+    }
+
+    public function isBonusFrame(): int
+    {
+        return $this->bonusRolls > 0;
+    }
+
+    public function processFirstRoll(int $pinsHit): void
+    {
+        if ($pinsHit == 10 && $this->currentFrame < 10) {
+            $this->frames[] = [10];
+            $this->currentFrame++;
+        } else {
+            $this->frames[] = [$pinsHit];
+            $this->isFirstRoll = false;
+        }
+    }
+
+    public function handleRoll(int $pinsHit): void
+    {
+        if ($this->isFirstRoll) {
+            $this->processFirstRoll($pinsHit);
+        } else {
+            $this->processSecondRoll($pinsHit);
+        }
+    }
+
+    public function processSecondRoll(int $pinsHit): void
+    {
+        $this->frames[count($this->frames) - 1][] = $pinsHit;
+        if ($this->isSpare($this->frames[count($this->frames) - 1])) {
+            $this->frames[count($this->frames) - 1][] = 'Spare';
+        }
+        $this->currentFrame++;
+        $this->isFirstRoll = true;
+    }
+
+    public function handleBonusRoll(int $pinsHit): void
+    {
+        if ($this->isFirstRoll) {
+            $this->frames[] = [$pinsHit];
+            if ($pinsHit == 10) {
+                $this->bonusRolls = 2;
+            } else {
+                $this->isFirstRoll = false;
+                $this->bonusRolls = 1;
+            }
+        } else {
+            $this->frames[count($this->frames) - 1][] = $pinsHit;
+            $this->bonusRolls--;
+            if ($this->bonusRolls === 0) {
+                $this->currentFrame++;
+            }
+        }
     }
 
     private function getStrikeBonus($frameIndex): int
@@ -104,5 +153,15 @@ class BowlingGame
     private function getSpareBonus($frameIndex): int
     {
         return $this->frames[$frameIndex + 1][0] ?? 0;
+    }
+
+    public function isStrike(array $frame): int
+    {
+        return count($frame) == 1 && $frame[0] == 10;
+    }
+
+    public function isSpare(array $frame): int
+    {
+        return count($frame) == 2 && array_sum($frame) == 10;
     }
 }
