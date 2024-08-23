@@ -18,7 +18,7 @@ class FizzBuzzTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function fizzBuzzProvider()
+    public function fizzBuzzProvider(): array
     {
         return [
             [1, 5, ['1', '2', 'Fizz', '4', 'Buzz']],
