@@ -1,6 +1,6 @@
 <?php
 
-namespace Cheba\PhpUnit;
+namespace Cheba\PhpUnit\FizzBuzz;
 
 class FizzBuzz
 {

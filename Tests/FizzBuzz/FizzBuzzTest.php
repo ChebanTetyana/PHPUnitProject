@@ -1,8 +1,8 @@
 <?php
 
-namespace Cheba\PhpUnit\Tests;
+namespace Cheba\PhpUnit\Tests\FizzBuzz;
 
-use Cheba\PhpUnit\FizzBuzz;
+use Cheba\PhpUnit\FizzBuzz\FizzBuzz;
 use PHPUnit\Framework\TestCase;
 
 class FizzBuzzTest extends TestCase
