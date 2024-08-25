@@ -1,8 +1,8 @@
 <?php
 
-namespace Cheba\PhpUnit\Tests\Models;
+namespace Cheba\PhpUnit\Tests\AreaAndPerimeterOfFigures\Models;
 
-use Cheba\PhpUnit\Models\Triangle;
+use Cheba\PhpUnit\AreaAndPerimeterOfFigures\Models\Triangle;
 use PHPUnit\Framework\TestCase;
 
 class TriangleTest extends TestCase

@@ -1,8 +1,8 @@
 <?php
 
-namespace Cheba\PhpUnit\Models;
+namespace Cheba\PhpUnit\AreaAndPerimeterOfFigures\Models;
 
-use Cheba\PhpUnit\Interfaces\Shape;
+use Cheba\PhpUnit\AreaAndPerimeterOfFigures\Interfaces\Shape;
 
 class Rectangle implements Shape
 {

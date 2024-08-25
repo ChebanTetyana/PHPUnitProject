@@ -1,9 +1,9 @@
 <?php
 
-namespace Cheba\PhpUnit\Tests\Services;
+namespace Cheba\PhpUnit\Tests\AreaAndPerimeterOfFigures\Services;
 
-use Cheba\PhpUnit\Models\Rectangle;
-use Cheba\PhpUnit\Services\ShapeCalculator;
+use Cheba\PhpUnit\AreaAndPerimeterOfFigures\Models\Rectangle;
+use Cheba\PhpUnit\AreaAndPerimeterOfFigures\Services\ShapeCalculator;
 use PHPUnit\Framework\TestCase;
 
 class ShapeCalculatorTest extends TestCase

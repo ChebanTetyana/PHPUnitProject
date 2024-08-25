@@ -1,8 +1,8 @@
 <?php
 
-namespace Cheba\PhpUnit\Tests\Models;
+namespace Cheba\PhpUnit\Tests\AreaAndPerimeterOfFigures\Models;
 
-use Cheba\PhpUnit\Models\Square;
+use Cheba\PhpUnit\AreaAndPerimeterOfFigures\Models\Square;
 use PHPUnit\Framework\TestCase;
 
 class SquareTest extends TestCase

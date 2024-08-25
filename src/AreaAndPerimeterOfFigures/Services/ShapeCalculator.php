@@ -1,8 +1,8 @@
 <?php
 
-namespace Cheba\PhpUnit\Services;
+namespace Cheba\PhpUnit\AreaAndPerimeterOfFigures\Services;
 
-use Cheba\PhpUnit\Interfaces\Shape;
+use Cheba\PhpUnit\AreaAndPerimeterOfFigures\Interfaces\Shape;
 
 class ShapeCalculator
 {

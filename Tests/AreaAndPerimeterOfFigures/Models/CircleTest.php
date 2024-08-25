@@ -1,9 +1,8 @@
 <?php
 
-namespace Cheba\PhpUnit\Tests\Models;
+namespace Cheba\PhpUnit\Tests\AreaAndPerimeterOfFigures\Models;
 
-use Cheba\PhpUnit\Models\Circle;
-use Cheba\PhpUnit\Models\Rectangle;
+use Cheba\PhpUnit\AreaAndPerimeterOfFigures\Models\Circle;
 use PHPUnit\Framework\TestCase;
 
 class CircleTest extends TestCase

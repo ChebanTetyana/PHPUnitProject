@@ -1,6 +1,6 @@
 <?php
 
-namespace Cheba\PhpUnit\Interfaces;
+namespace Cheba\PhpUnit\AreaAndPerimeterOfFigures\Interfaces;
 
 interface Shape
 {

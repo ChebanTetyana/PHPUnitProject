@@ -1,9 +1,9 @@
 <?php
 
-namespace Cheba\PhpUnit\Tests\Services;
+namespace Cheba\PhpUnit\Tests\AreaAndPerimeterOfFigures\Services;
 
-use Cheba\PhpUnit\Interfaces\Shape;
-use Cheba\PhpUnit\Services\ShapeCalculator;
+use Cheba\PhpUnit\AreaAndPerimeterOfFigures\Interfaces\Shape;
+use Cheba\PhpUnit\AreaAndPerimeterOfFigures\Services\ShapeCalculator;
 use PHPUnit\Framework\TestCase;
 
 class ShapeCalculatorWithStubTest extends TestCase
