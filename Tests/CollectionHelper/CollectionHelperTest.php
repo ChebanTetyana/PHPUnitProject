@@ -1,10 +1,8 @@
 <?php
 
-namespace Cheba\PhpUnit\Tests;
+namespace Cheba\PhpUnit\Tests\CollectionHelper;
 
-use Cheba\PhpUnit\CollectionHelper;
-use http\Exception\InvalidArgumentException;
-use OutOfBoundsException;
+use Cheba\PhpUnit\CollectionHelper\CollectionHelper;
 use PHPUnit\Framework\TestCase;
 
 class CollectionHelperTest extends TestCase

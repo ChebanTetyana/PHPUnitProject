@@ -1,6 +1,6 @@
 <?php
 
-namespace Cheba\PhpUnit;
+namespace Cheba\PhpUnit\Calculator;
 
 class Calculator
 {
@@ -17,7 +17,7 @@ class Calculator
     public function division($a, $b): int
     {
         if ($b === 0) {
-            throw new \InvalidArgumentException('Division by xero');
+            throw new \InvalidArgumentException('Division by zero');
         }
         return $a / $b;
     }

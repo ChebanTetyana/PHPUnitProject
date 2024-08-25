@@ -1,8 +1,8 @@
 <?php
 
-namespace Cheba\PhpUnit\Tests;
+namespace Cheba\PhpUnit\Tests\Calculator;
 
-use Cheba\PhpUnit\Calculator;
+use Cheba\PhpUnit\Calculator\Calculator;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -60,7 +60,7 @@ class CalculatorTest extends TestCase
     public function testDivisionByZero()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Division by xero');
+        $this->expectExceptionMessage('Division by zero');
 
         $calculator = new Calculator();
         $result = $calculator->division(9, 0);

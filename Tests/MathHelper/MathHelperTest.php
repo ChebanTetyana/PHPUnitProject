@@ -1,8 +1,8 @@
 <?php
 
-namespace Cheba\PhpUnit\Tests;
+namespace Cheba\PhpUnit\Tests\MathHelper;
 
-use Cheba\PhpUnit\MathHelper;
+use Cheba\PhpUnit\MathHelper\MathHelper;
 use PHPUnit\Framework\TestCase;
 
 class MathHelperTest extends TestCase
