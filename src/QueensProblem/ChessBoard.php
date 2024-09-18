@@ -5,57 +5,70 @@ namespace Cheba\PhpUnit\QueensProblem;
 class ChessBoard
 {
     private int $size;
-    private array $queens;
+    public array $queens = [];
 
     public function __construct($size = 8)
     {
         $this->size = $size;
-        $this->queens = [];
     }
 
-    public function placeQueen($row, $col): bool
+    public function generate(): array
     {
-        $newQueen = new Queen($row, $col);
+        $this->queens = [];
+        $this->generateArray(1);
+        return $this->queens;
+    }
 
-        foreach ($this->queens as $queen) {
-            if ($newQueen->isConflict($queen)) {
-                return false;
-            }
+    public function isQueensPositionArrayValid(array $queens): bool
+    {
+        if (count($queens) != $this->size) {
+            return false;
         }
 
-        $this->queens[] = $newQueen;
+        for ($i = 1; $i <= count($queens); $i++) {
+            for ($j = 1; $j <= count($queens); $j++) {
+                if ($i != $j) {
+                    if (!$this->isPositionValid($i, $queens[$i - 1], $j, $queens[$j - 1])) {
+                        return false;
+                    }
+                }
+            }
+        }
         return true;
     }
 
-    public function removeQueen(): void
+    public function isPositionValid(int $existingQueenCol, int $existingQueenRow, int $col, int $row): bool
     {
-        array_pop($this->queens);
+        return !($row == $existingQueenRow ||
+            $col == $existingQueenCol ||
+            abs($row - $existingQueenRow) == abs($col - $existingQueenCol));
     }
 
-    public function solve($col = 0): bool
+   private function generateArray(int $initialColumn): void
     {
-        if ($col == $this->size) {
-            return true;
+        if (count($this->queens) == $this->size) {
+            return;
         }
 
         for ($row = 1; $row <= $this->size; $row++) {
-            if ($this->placeQueen($row, $col)) {
-                if($this->solve($col + 1)) {
-                    return true;
+            if ($this->isQueenPositionValid($initialColumn, $row)) {
+                $this->queens[$initialColumn - 1] = $row;
+                $this->generateArray($initialColumn + 1);
+                if (count($this->queens) == $this->size) {
+                    return;
                 }
-                $this->removeQueen();
+                unset($this->queens[$initialColumn - 1]);
             }
         }
-
-        return false;
     }
 
-    public function getSolution(): array
+    private function isQueenPositionValid(int $col, int $row): bool
     {
-        $solution = array_fill(0, $this->size, 0);
-        foreach ($this->queens as $queen) {
-            $solution[$queen->col] = $queen->row;
+        foreach ($this->queens as $existingCol=>$existingRow) {
+            if (!$this->isPositionValid($existingCol + 1, $existingRow, $col, $row)) {
+                return false;
+            }
         }
-        return $solution;
+        return true;
     }
 }
