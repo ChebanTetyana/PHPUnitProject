@@ -7,13 +7,13 @@ use PHPUnit\Framework\TestCase;
 
 class SquareTest extends TestCase
 {
-    public function testArea()
+    public function testArea(): void
     {
         $square = new Square(4);
         $this->assertEquals(16, $square->getArea());
     }
 
-    public function testPerimeter()
+    public function testPerimeter(): void
     {
         $square = new Square(4);
         $this->assertEquals(16, $square->getPerimeter());
