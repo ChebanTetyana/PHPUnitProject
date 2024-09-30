@@ -109,4 +109,68 @@ class BowlingGameTest extends TestCase
         $scores = $this->game->getResult();
         $this->assertEquals([9], $scores);
     }
+
+    public function testThreeFinalThrowsAfterStrike(): void
+    {
+        for ($i = 0; $i < 18; $i++) {
+            $this->game->roll(0);
+        }
+
+        $this->game->roll(10);
+        $this->game->roll(10);
+        $this->game->roll(10);
+
+        $scores = $this->game->getResult();
+        $this->assertEquals(30, end($scores));
+    }
+
+    public function testThreeFinalThrowsAfterSpare(): void
+    {
+        for ($i = 0; $i < 18; $i++) {
+            $this->game->roll(0);
+        }
+
+        $this->game->roll(5);
+        $this->game->roll(5);
+        $this->game->roll(10);
+
+        $scores = $this->game->getResult();
+        $this->assertEquals(10, end($scores));
+    }
+
+    /**
+     * @dataProvider fullGameDataProvider
+     */
+
+    public function testFullGame(array $rolls, $expectedScore)
+    {
+        foreach ($rolls as $pins) {
+            $this->game->roll($pins);
+        }
+
+        $scores = $this->game->getResult();
+        $this->assertEquals($expectedScore, end($scores));
+    }
+
+    public function fullGameDataProvider()
+    {
+        return [
+            'perfect game' => [
+                'rolls' => array_fill(0, 12, 10),
+                'expectedScore' => 300,
+            ],
+            'all spares' => [
+                'rolls' => array_merge(array_fill(0, 21, 5)),
+                'expectedCode' => 100,
+            ],
+            'random game' => [
+                'rolls' => [10, 9, 1, 5, 5, 7, 2, 10, 10, 10, 9, 0, 8, 2, 9, 1, 10],
+                'expectedCode' => 156,
+            ],
+            'worst game' => [
+                'rolls' => array_fill(0, 20, 0),
+                'expectedCode' => 0,
+            ],
+        ];
+    }
 }
