@@ -56,7 +56,7 @@ class BowlingGame
         return $scores;
     }
 
-    public function calculateFrameScore(array $frame, int $i): float|int
+    private function calculateFrameScore(array $frame, int $i): int
     {
         $frameScore = array_sum(array_filter($frame, fn($val) => is_numeric($val)));
 
@@ -69,24 +69,24 @@ class BowlingGame
         return $frameScore;
     }
 
-    public function isGameOver(): bool
+    private function isGameOver(): bool
     {
         return $this->currentFrame > 10;
     }
 
-    public function validatePins(int $pinsHit): void
+    private function validatePins(int $pinsHit): void
     {
         if ($pinsHit < 0 || $pinsHit > 10) {
             throw new InvalidArgumentException('Invalid number of pins.');
         }
     }
 
-    public function isBonusFrame(): int
+    private function isBonusFrame(): int
     {
         return $this->bonusRolls > 0;
     }
 
-    public function processFirstRoll(int $pinsHit): void
+    private function processFirstRoll(int $pinsHit): void
     {
         if ($pinsHit == 10 && $this->currentFrame < 10) {
             $this->frames[] = [10];
@@ -97,7 +97,7 @@ class BowlingGame
         }
     }
 
-    public function handleRoll(int $pinsHit): void
+    private function handleRoll(int $pinsHit): void
     {
         if ($this->isFirstRoll) {
             $this->processFirstRoll($pinsHit);
@@ -106,7 +106,7 @@ class BowlingGame
         }
     }
 
-    public function processSecondRoll(int $pinsHit): void
+    private function processSecondRoll(int $pinsHit): void
     {
         $this->frames[count($this->frames) - 1][] = $pinsHit;
         if ($this->isSpare($this->frames[count($this->frames) - 1])) {
@@ -116,7 +116,7 @@ class BowlingGame
         $this->isFirstRoll = true;
     }
 
-    public function handleBonusRoll(int $pinsHit): void
+    private function handleBonusRoll(int $pinsHit): void
     {
         if ($this->isFirstRoll) {
             $this->frames[] = [$pinsHit];
@@ -155,12 +155,12 @@ class BowlingGame
         return $this->frames[$frameIndex + 1][0] ?? 0;
     }
 
-    public function isStrike(array $frame): int
+    private function isStrike(array $frame): int
     {
         return count($frame) == 1 && $frame[0] == 10;
     }
 
-    public function isSpare(array $frame): int
+    private function isSpare(array $frame): int
     {
         return count($frame) == 2 && array_sum($frame) == 10;
     }
