@@ -3,6 +3,7 @@
 namespace Cheba\PhpUnit\Tests\BowlingGameTest;
 
 use Cheba\PhpUnit\BowlingGame\BowlingGame;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class BowlingGameTest extends TestCase
@@ -28,14 +29,14 @@ class BowlingGameTest extends TestCase
 
     public function testWhenRollLessThanZeroThenThrowException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid number of pins.');
         $this->game->roll(-1);
     }
 
     public function testWhenRollMoreThanTenPinsThenThrowException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid number of pins.');
         $this->game->roll(11);
     }
@@ -152,7 +153,7 @@ class BowlingGameTest extends TestCase
         $this->assertEquals($expectedScore, end($scores));
     }
 
-    public function fullGameDataProvider()
+    public function fullGameDataProvider(): array
     {
         return [
             'perfect game' => [
