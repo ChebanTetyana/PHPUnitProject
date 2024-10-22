@@ -7,7 +7,9 @@ class ScoreBoard
     protected array $games = [];
     public function startGame($homeTeam, $awayTeam): object
     {
-        return new Game($homeTeam, $awayTeam);
+        $game = new Game($homeTeam, $awayTeam);
+        $this->games[] = $game;
+        return $game;
     }
 
     public function updateScore($game, $homeScore, $awayScore): void
@@ -18,13 +20,24 @@ class ScoreBoard
 
     public function finishGame($game): void
     {
-        $this->games = array_filter($this->games, function ($g) use ($game) {
-            return $g != $game;
-        });
+        $this->games = array_filter($this->games, fn($g) => $g !== $game);
     }
 
     public function getSummary(): array
     {
-        return $this->games;
+        usort($this->games, function ($a, $b) {
+            $totalScoreA = $a->getTotalScore();
+            $totalScoreB = $b->getTotalScore();
+
+            return $totalScoreA === $totalScoreB
+                ? $b->addedAt - $a->addedAt
+                : $totalScoreB - $totalScoreA;
+        });
+
+        $summary = [];
+        foreach ($this->games as $game) {
+            $summary[] = "$game->homeTeam $game->homeScore - $game->awayTeam $game->awayScore";
+        }
+        return $summary;
     }
 }
