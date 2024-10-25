@@ -5,22 +5,22 @@ namespace Cheba\PhpUnit\WorldCup;
 class ScoreBoard
 {
     protected array $games = [];
-    public function startGame($homeTeam, $awayTeam): object
+    public function startGame(string $homeTeam, string $awayTeam): Game
     {
         $game = new Game($homeTeam, $awayTeam);
         $this->games[] = $game;
         return $game;
     }
 
-    public function updateScore($game, $homeScore, $awayScore): void
+    public function updateScore(Game $game, int $homeScore, int $awayScore): void
     {
-        $game->homeScore = $homeScore;
-        $game->awayScore = $awayScore;
+        $game->setHomeScore($homeScore);
+        $game->setAwayScore($awayScore);
     }
 
-    public function finishGame($game): void
+    public function finishGame(Game $game): void
     {
-        $this->games = array_filter($this->games, fn($g) => $g !== $game);
+       $game->finishGame();
     }
 
     public function getSummary(): array
@@ -30,13 +30,18 @@ class ScoreBoard
             $totalScoreB = $b->getTotalScore();
 
             return $totalScoreA === $totalScoreB
-                ? $b->addedAt - $a->addedAt
+                ? $b->addedAt - $a->getAddedAt
                 : $totalScoreB - $totalScoreA;
         });
 
         $summary = [];
         foreach ($this->games as $game) {
-            $summary[] = "$game->homeTeam $game->homeScore - $game->awayTeam $game->awayScore";
+            if (!$game->isFinished()) {
+                $summary[] = $game->getHomeTeam() .
+                    ' ' . $game->getHomeScore() .
+                    ' - ' . $game->getAwayTeam() .
+                    ' ' . $game->getAwayScore();
+            }
         }
         return $summary;
     }
