@@ -15,7 +15,7 @@ class BowlingGameTest extends TestCase
         $this->game = new BowlingGame();
     }
 
-    public function testStartOfGame()
+    public function testStartOfGame(): void
     {
         $scores = $this->game->getResult();
         $this->assertEmpty($scores);
@@ -63,13 +63,13 @@ class BowlingGameTest extends TestCase
         $this->assertEquals(14, $scores[1]);
     }
 
-    public function testRollStrike()
+    public function testRollStrike(): void
     {
         $pinsHit = $this->game->roll(10);
         $this->assertEquals(10, $pinsHit);
     }
 
-    public function testRollSpare()
+    public function testRollSpare(): void
     {
         $this->game->roll(7);
         $secondRoll = $this->game->roll(3);
@@ -78,14 +78,14 @@ class BowlingGameTest extends TestCase
         $this->assertEquals(10, $this->game->getResult()[0]);
     }
 
-    public function testRoll()
+    public function testRoll(): void
     {
         $this->game->roll(3);
         $this->game->roll(6);
         $this->assertEquals([0 => 9], $this->game->getResult());
     }
 
-    public function testGameOver()
+    public function testGameOver(): void
     {
         for ($i = 0; $i < 20; $i++) {
             $this->game->roll(1);
@@ -93,7 +93,7 @@ class BowlingGameTest extends TestCase
         $this->assertEquals("Game over!", $this->game->roll(1));
     }
 
-    public function testFinalScore()
+    public function testFinalScore(): void
     {
         for ($i = 0; $i < 12; $i++) {
             $this->game->roll(10);
@@ -143,7 +143,7 @@ class BowlingGameTest extends TestCase
      * @dataProvider fullGameDataProvider
      */
 
-    public function testFullGame(array $rolls, $expectedScore)
+    public function testFullGame(array $rolls, $expectedScore): void
     {
         foreach ($rolls as $pins) {
             $this->game->roll($pins);
