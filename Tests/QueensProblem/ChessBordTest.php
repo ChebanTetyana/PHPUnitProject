@@ -48,12 +48,17 @@ class ChessBordTest extends TestCase
         ];
     }
 
-    public function testIsQueenPositionArrayValid()
+    public function testIsQueenPositionArrayValidWithValidPlacement()
     {
         $board = new ChessBoard();
 
         $board->queens = [1, 5, 8, 6, 3, 7, 2, 4,];
         $this->assertTrue($board->isQueensPositionArrayValid($board->queens), "Queens are placed correctly");
+    }
+
+    public function testIsQueenPositionArrayValidWithInvalidPlacement()
+    {
+        $board = new ChessBoard();
 
         $board->queens = [1, 1, 8, 6, 3, 7, 2, 4,];
         $this->assertFalse($board->isQueensPositionArrayValid($board->queens), "Queens aren't placed correctly");
