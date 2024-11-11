@@ -19,14 +19,10 @@ class ShoppingCart
 
     public function getSummary(): array
     {
-        $totalPrice = array_sum(array_column($this->items, 'price'));
-        $itemCount = count($this->items);
-        $discountedTotal = $this->strategy->calculateTotal($itemCount, $totalPrice);
-
         return [
-            'item_count' => $itemCount,
-            'total_price'=> $totalPrice,
-            'discounted_price'=>$discountedTotal
+            'item_count' => count($this->items),
+            'total_price' => array_sum(array_column($this->items, 'price')),
+            'discounted_price' => $this->strategy->calculateTotal($this->items),
         ];
     }
 }

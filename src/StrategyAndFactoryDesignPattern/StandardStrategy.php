@@ -4,8 +4,12 @@ namespace Cheba\PhpUnit\StrategyAndFactoryDesignPattern;
 
 class StandardStrategy implements DiscountStrategy
 {
-    public function calculateTotal(int $items, int $totalPrice): int
+    public function calculateTotal(array $items): float
     {
-        return $totalPrice;
+        if (empty($items)) {
+            return 0;
+        }
+
+        return (int) array_sum(array_column($items, 'price'));
     }
 }
