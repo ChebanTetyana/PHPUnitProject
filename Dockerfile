@@ -10,8 +10,3 @@ COPY . .
 
 # Install Composer dependencies
 RUN curl -sS https://getcomposer.org/installer | php && php composer.phar install
-
-# Run PHPUnit tests
-CMD ["vendor/bin/phpunit", "--bootstrap", "vendor/autoload.php", "tests/DockerContainerTest/ExampleTest.php"]
-
-
