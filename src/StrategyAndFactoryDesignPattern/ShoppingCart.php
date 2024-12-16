@@ -2,27 +2,33 @@
 
 namespace Cheba\PhpUnit\StrategyAndFactoryDesignPattern;
 
+use Cheba\PhpUnit\StrategyAndFactoryDesignPattern\Strategy\DiscountStrategy;
+
 class ShoppingCart
 {
+    private Client $client;
     private array $items = [];
-    private DiscountStrategy $strategy;
+    private DiscountStrategy $discountStrategy;
 
-    public function __construct(DiscountStrategy $strategy)
+    public function __construct(Client $client, DiscountStrategy $discountStrategy)
     {
-        $this->strategy = $strategy;
+        $this->client = $client;
+        $this->discountStrategy = $discountStrategy;
     }
 
-    public function addProduct(string $productName, int $price): void
+    public function addItem(Product $product, int $quantity = 1): void
     {
-        $this->items[] = ['name' => $productName, 'price' => $price];
+        $this->items[] = new ShoppingCartItem($product, $quantity);
     }
 
-    public function getSummary(): array
+    public function getSummary(): float
     {
-        return [
-            'item_count' => count($this->items),
-            'total_price' => array_sum(array_column($this->items, 'price')),
-            'discounted_price' => $this->strategy->calculateTotal($this->items),
-        ];
+        $total = 0;
+
+        foreach ($this->items as $item) {
+            $total += $item->getTotalPrice();
+        }
+
+        return $this->discountStrategy->applyDiscount($this->items, $total);
     }
 }
