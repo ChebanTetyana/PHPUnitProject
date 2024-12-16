@@ -2,45 +2,62 @@
 
 namespace Cheba\PhpUnit\Tests\StrategyAndFactoryDesignPattern;
 
-use Cheba\PhpUnit\Enums\ClientType;
-use Cheba\PhpUnit\StrategyAndFactoryDesignPattern\StrategyFactory;
+use Cheba\PhpUnit\StrategyAndFactoryDesignPattern\Product;
+use Cheba\PhpUnit\StrategyAndFactoryDesignPattern\ShoppingCartItem;
+use Cheba\PhpUnit\StrategyAndFactoryDesignPattern\Strategy\StandardDiscount;
+use Cheba\PhpUnit\StrategyAndFactoryDesignPattern\Strategy\WholesaleDiscount;
 use PHPUnit\Framework\TestCase;
 
 class DiscountStrategyTest extends TestCase
 {
     public function testStandardStrategyAppliesNoDiscount()
     {
-        $strategy = StrategyFactory::createStrategy(ClientType::Standard);
+        $strategy = new StandardDiscount();
         $items = [
-            ['price' => 1000]
+            new ShoppingCartItem(new Product('Bread', 100), 1),
+            new ShoppingCartItem(new Product('Milk', 50), 2),
         ];
 
-        $calculatedTotal = $strategy->calculateTotal($items);
+        $total = array_reduce($items, fn($carry, $item) => $carry + $item->getTotalPrice(), 0);
+        $discountedTotal = $strategy->applyDiscount($items, $total);
 
-        $this->assertEquals(1000, $calculatedTotal, "Standard client pay the full price");
+        $this->assertEquals(
+            200,
+            $discountedTotal,
+            "Standard discount should not reduce the total price.");
     }
 
     public function testWholeSaleStrategyApplies10PercentDiscount()
     {
-        $strategy = StrategyFactory::createStrategy(ClientType::Wholesale);
+        $strategy = new  WholesaleDiscount();
         $items = [
-            ['price' => 1000]
+            new ShoppingCartItem(new Product('Bread', 100), 2),
+            new ShoppingCartItem(new Product('Milk', 50), 4),
         ];
 
-        $calculatedTotal = $strategy->calculateTotal($items);
+        $total = array_reduce($items, fn($carry, $item) => $carry + $item->getTotalPrice(), 0);
+        $discountedTotal = $strategy->applyDiscount($items, $total);
 
-        $this->assertEquals(900, $calculatedTotal,
-            "WholeSale client with 10 Items should receive a 10% discount");
+        $this->assertEquals(
+            360,
+            $discountedTotal,
+            "Wholesale discount should apply a 10% discount for less than 15 items.");
     }
 
     public function testWholeSaleStrategyApplies20PercentDiscount()
     {
-        $strategy = StrategyFactory::createStrategy(ClientType::Wholesale);
-        $items = array_fill(0, 20, ['price' => 100]);
+        $strategy = new  WholesaleDiscount();
+        $items = [
+            new ShoppingCartItem(new Product('Bread', 100), 10),
+            new ShoppingCartItem(new Product('Milk', 50), 10),
+        ];
 
-        $calculatedTotal = $strategy->calculateTotal($items);
+        $total = array_reduce($items, fn($carry, $item) => $carry + $item->getTotalPrice(), 0);
+        $discountedTotal = $strategy->applyDiscount($items, $total);
 
-        $this->assertEquals(1600, $calculatedTotal,
-            "WholeSale client with more 15 Items should receive a 20% discount");
+        $this->assertEquals(
+            1200,
+            $discountedTotal,
+            "Wholesale discount should apply a 20% discount for more than 15 items.'");
     }
 }
