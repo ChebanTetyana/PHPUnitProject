@@ -13,6 +13,3 @@ RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/lo
 
 # Copy your project files into the container
 COPY . .
-
-# Install project dependencies using Composer
-RUN composer install --no-scripts --no-progress --no-interaction
