@@ -10,7 +10,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Cheba\\PhpUnit\\Tests\\": "tests/"
+            "Cheba\\PhpUnit\\Tests\\": "Tests/"
         }
     },
     "authors": [
@@ -24,6 +24,7 @@
         "phpunit/phpunit": "^9.5"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "4.0.x-dev"
+        "squizlabs/php_codesniffer": "4.0.x-dev",
+        "phpstan/phpstan": "^1.10"
     }
 }
